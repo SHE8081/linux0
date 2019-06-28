@@ -11,6 +11,7 @@
 !
 
 ! 1.44Mb disks:
+！ 注释文件
 sectors = 18
 
 .globl begtext, begdata, begbss, endtext, enddata, endbss
