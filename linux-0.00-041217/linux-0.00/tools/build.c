@@ -22,9 +22,10 @@ int main(int argc, char ** argv)
 {
 	int i,c,id;
 	char buf[1024];
-
+//判断参数个数是否为3个
 	if (argc != 3)
 		usage();
+//初始化buf缓存区为0
 	for (i=0;i<sizeof buf; i++) buf[i]=0;
 	if ((id=open(argv[1],O_RDONLY,0))<0)
 		die("Unable to open 'boot'");
