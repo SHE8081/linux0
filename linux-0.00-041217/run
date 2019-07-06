@@ -1,0 +1,9 @@
+#!/bin/sh
+
+#export BXSHARE=/usr/share/bochs
+
+export BXSHARE=$(dirname 'which $0')
+
+echo $BXSHARE
+
+bochs -q -f $BXSHARE/bochs/bochsrc.bxrc

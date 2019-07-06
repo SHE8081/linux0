@@ -3,6 +3,7 @@
  *  Two L3 task multitasking. The code of tasks are in kernel area, 
  *  just like the Linux. The kernel code is located at 0x10000. 
  */
+.code32
 KRN_BASE 	= 0x10000
 TSS0_SEL	= 0x20
 LDT0_SEL	= 0x28
@@ -10,6 +11,7 @@ TSS1_SEL	= 0X30
 LDT1_SEL	= 0x38
 
 .text
+.globl startup_32
 startup_32:
 	movl $0x10,%eax
 	mov %ax,%ds
@@ -146,7 +148,7 @@ write_char:
 
 /***********************************************/
 /* This is the default interrupt "handler" :-) */
-.align 2
+.align 4
 ignore_int:
 	push %ds
 	pushl %eax
@@ -159,7 +161,7 @@ ignore_int:
 	iret
 
 /* Timer interrupt handler */ 
-.align 2
+.align 4
 timer_interrupt:
 	push %ds
 	pushl %edx
@@ -186,7 +188,7 @@ timer_interrupt:
 	iret
 
 /* system call handler */
-.align 2
+.align 4
 system_interrupt:
 	push %ds
 	pushl %edx
@@ -207,18 +209,18 @@ system_interrupt:
 current:.long 0
 scr_loc:.long 0
 
-.align 2
+.align 4
 .word 0
 lidt_opcode:
 	.word 256*8-1		# idt contains 256 entries
 	.long idt + KRN_BASE	# This will be rewrite by code. 
-.align 2
+.align 4
 .word 0
 lgdt_opcode:
 	.word (end_gdt-gdt)-1	# so does gdt 
 	.long gdt + KRN_BASE	# This will be rewrite by code.
 
-	.align 3
+	.align 8
 idt:	.fill 256,8,0		# idt is uninitialized
 
 gdt:	.quad 0x0000000000000000	/* NULL descriptor */
@@ -237,7 +239,7 @@ stack_ptr:
 	.word 0x10
 
 /*************************************/
-.align 3
+.align 8
 ldt0:	.quad 0x0000000000000000
 	.quad 0x00c0fa01000003ff	# 0x0f, base = 0x10000
 	.quad 0x00c0f201000003ff	# 0x17
@@ -260,7 +262,7 @@ stack0_krn_ptr:
 	.long 0
 
 /************************************/
-.align 3
+.align 8
 ldt1:	.quad 0x0000000000000000
 	.quad 0x00c0fa01000003ff	# 0x0f, base = 0x10000
 	.quad 0x00c0f201000003ff	# 0x17
@@ -286,7 +288,7 @@ stack1_krn_ptr:
 task0:
 	movl $0x17, %eax
 	movw %ax, %ds
-	movl $65, %al              /* print 'A' */
+	movb $65, %al              /* print 'A' */
 	int $0x80
 	movl $0xfff, %ecx
 1:	loop 1b
@@ -299,7 +301,7 @@ stack0_ptr:
 task1:
 	movl $0x17, %eax
 	movw %ax, %ds
-	movl $66, %al              /* print 'B' */
+	movb $66, %al              /* print 'B' */
 	int $0x80
 	movl $0xfff, %ecx
 1:	loop 1b

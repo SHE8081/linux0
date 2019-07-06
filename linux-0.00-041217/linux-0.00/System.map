@@ -1,46 +1,30 @@
-
-Files:
-
-  boot/head.o text 0(15a4), data 2000(0), bss 2000(0) hex
-
-Global symbols:
-
-  __edata: 0x2000
-  __etext: 0x2000
-  __end: 0x2000
-  _etext: 0x2000
-  _edata: 0x2000
-  _end: 0x2000
-
-Local symbols of boot/head.o:
-
-  KRN_BASE: 0x10000
-  TSS0_SEL: 0x20
-  TSS1_SEL: 0x30
-  startup_32: 0x0
-  stack_ptr: 0xc58
-  gdt: 0xa18
-  tss0: 0xc78
-  set_base: 0x13e
-  ldt0: 0xc60
-  tss1: 0xf00
-  ldt1: 0xee8
-  setup_idt: 0x10e
-  setup_gdt: 0x106
-  timer_interrupt: 0x1a0
-  idt: 0x218
-  system_interrupt: 0x1e4
-  current: 0x1fb
-  stack0_ptr: 0x1384
-  task0: 0x116c
-  lgdt_opcode: 0x20e
-  ignore_int: 0x188
-  rp_sidt: 0x12b
-  lidt_opcode: 0x206
-  write_char: 0x153
-  scr_loc: 0x1ff
-  end_gdt: 0xa58
-  stack0_krn_ptr: 0xee0
-  stack1_krn_ptr: 0x1168
-  task1: 0x1388
-  stack1_ptr: 0x15a0
+00000000 T startup_32
+00000106 t setup_gdt
+0000010e t setup_idt
+0000012b t rp_sidt
+0000013e t set_base
+00000153 t write_char
+00000184 t ignore_int
+0000019c t timer_interrupt
+000001e0 t system_interrupt
+000001f7 t current
+000001fb t scr_loc
+00000202 t lidt_opcode
+0000020a t lgdt_opcode
+00000210 t idt
+00000a10 t gdt
+00000a50 t end_gdt
+00000c50 t stack_ptr
+00000c58 t ldt0
+00000c70 t tss0
+00000ed8 t stack0_krn_ptr
+00000ee0 t ldt1
+00000ef8 t tss1
+00001160 t stack1_krn_ptr
+00001164 t task0
+00001378 t stack0_ptr
+0000137c t task1
+00001590 t stack1_ptr
+00002594 T __bss_start
+00002594 T _edata
+00002594 T _end

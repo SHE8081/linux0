@@ -9,7 +9,7 @@
 # directory, named BIOS-bochs-yymmdd.  Use the latest one in there.
 #=======================================================================
 #romimage: bios/BIOS-bochs-970717a
-romimage: file=$BXSHARE\BIOS-bochs-latest, address=0xf0000
+romimage: file=$BXSHARE/BIOS-bochs-latest, address=0xf0000
 #romimage: file=bios/BIOS-bochs-2-processors, address=0xf0000
 #romimage: file=bios/BIOS-bochs-4-processors, address=0xf0000
 #romimage: file=bios/rombios.bin, address=0xf0000
@@ -33,7 +33,8 @@ megs: 16
 # You now need to load a VGA ROM BIOS into C0000.
 #=======================================================================
 #vgaromimage: bios/VGABIOS-lgpl-0.3a
-vgaromimage: $BXSHARE\VGABIOS-elpin-2.40
+# vgaromimage: file=$BXSHARE\VGABIOS-elpin-2.40
+vgaromimage: file=$BXSHARE/vgabios.bin
 
 #=======================================================================
 # FLOPPYA:
@@ -64,7 +65,7 @@ floppya: 1_44="bootimage-0.00", status=inserted
 # See FLOPPYA above for syntax
 #=======================================================================
 #floppyb: 1_44=b:, status=inserted
-floppyb: 1_44=diskb.img, status=inserted
+#floppyb: 1_44=diskb.img, status=inserted
 
 #=======================================================================
 # DISKC: file=, cyl=, heads=, spt=
@@ -191,7 +192,7 @@ log: bochsout.txt
 #   parport1: enable=1, file="parport.out"
 #   parport1: enable=0
 #=======================================================================
-parport1: enable=0
+#parport1: enable=0
 
 #=======================================================================
 # SB16:
