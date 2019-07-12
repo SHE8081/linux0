@@ -44,7 +44,7 @@ load_system:
 	mov	es,ax
 	mov	bx,#0x0000
 	mov	ax,#0x200+SYSLEN
-	int 0x13
+	int 	0x13
 	jnc	ok_load			!dos/bios对文件、磁盘，IO操作的检测都是通过CF位来确定是否操作成功的， CF=0；成功，CF=1，失败并返回错误值
 	mov	dx,#0x0000
 	mov	ax,#0x0000
@@ -108,17 +108,17 @@ gdt:
 	.word	0,0,0,0		! dummy
 
 	.word	0x07FF		! 8Mb - limit=2047 (2048*4096=8Mb)
-	.word	0x1000		! base address=0x10000   0000 0000 0000 0001 0000 0000 0000 0000
-	.word	0x9A00		! code read/exec
+	.word	0x0000		! base address=0x10000   0000 0000 0000 0001 0000 0000 0000 0000
+	.word	0x9A01		! code read/exec
 	.word	0x00C0		! granularity=4096, 386
 
 	.word	0x07FF		! 8Mb - limit=2047 (2048*4096=8Mb)
-	.word	0x1000		! base address=0x10000
-	.word	0x9200		! data read/write
+	.word	0x0000		! base address=0x10000
+	.word	0x9201		! data read/write
 	.word	0x00C0		! granularity=4096, 386   07ff 1000 9a00 00c0   00 00 10 00
 !gdtr:base=0x0000000000007c6e, limit=0x7ff
 !0x0000000000007c6e <bogus+       0>:	0x00	0x00	0x00	0x00	0x00	0x00	0x00	0x00
-!0x0000000000007c76 <bogus+       8>:	0xff	0x07	0x00	0x10	0x00	0x9a	0xc0	0x00
+!0x0000000000007c76 <bogus+       8>:	0xff	0x07	0x00	0x00	0x01	0x9a	0xc0	0x00
 !0x0000000000007c7e <bogus+      16>:	0xff	0x07	0x00	0x00	0x01	0x92	0xc0	0x00
 idt_48:
 	.word	0		! idt limit=0

@@ -20,7 +20,7 @@ CPP	=cpp -nostdinc -Iinclude
 	-nostdinc -Iinclude -S -o $*.s $<
 #若目标是.o文件，而源文件是.s文件，则使用第一个规则
 .s.o:
-	$(AS) --32 -c -o $*.o $<
+	$(AS) -c -o $*.o $<
 #若目标是.o文件，而源文件是.c文件，则使用第一个规则
 .c.o:
 	$(CC) $(CFLAGS) \
@@ -30,7 +30,12 @@ all:	Image
 
 # >是定向输出到文件，如果文件不存在，就创建文件；如果文件存在，就将其清空。
 Image: boot/boot tools/system tools/build
-	tools/build boot/boot tools/system  > Image
+	cp -f tools/system system.tmp
+	strip system.tmp
+	objcopy -O binary -R .note -R .comment system.tmp tools/kernel
+	tools/build boot/boot tools/system  tools/kernel  > Image
+	rm system.tmp
+	rm tools/kernel -f
 	sync
 
 disk: Image
@@ -42,9 +47,13 @@ tools/build: tools/build.c
 	-o tools/build tools/build.c
 
 boot/head.o: boot/head.s
+	gcc-3.4 -m32 -g -I./include -traditional -c boot/head.s
+	mv head.o boot/
 
 tools/system:	boot/head.o 
-	$(LD) $(LDFLAGS) boot/head.o  -o tools/system  > System.map
+	$(LD) $(LDFLAGS) boot/head.o  -o tools/system
+	  nm tools/system | grep -v '\(compiled\)\|\(\.o$$\)\|\( [aU] \)\|\(\.\.ng$$\)\|\(LASH[RL]DI\)'| sort > System.map 
+
 
 
 boot/boot:	boot/boot.s
