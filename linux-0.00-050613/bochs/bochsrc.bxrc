@@ -4,7 +4,7 @@ megs: 16
 
 vgaromimage: file=$BXSHARE/bochs/vgabios.bin
 
-floppya: 1_44="$BXSHARE/linux-0.00/Image", status=inserted
+floppya: 1_44="$BXSHARE/linux-0.00-rh9/Image", status=inserted
 
 boot: a
 

@@ -22,10 +22,9 @@ int main(int argc, char ** argv)
 {
 	int i,c,id;
 	char buf[1024];
-//判断参数个数是否为3个
-	if (argc !=3) 
+
+	if (argc != 3)
 		usage();
-//初始化buf缓存区为0
 	for (i=0;i<sizeof buf; i++) buf[i]=0;
 	if ((id=open(argv[1],O_RDONLY,0))<0)
 		die("Unable to open 'boot'");
@@ -56,10 +55,10 @@ int main(int argc, char ** argv)
 	
 	if ((id=open(argv[2],O_RDONLY,0))<0)
 		die("Unable to open 'system'");
-	//if (read(id,buf,GCC_HEADER) != GCC_HEADER)
-	//	die("Unable to read header of 'system'");
-	//if (((long *) buf)[5] != 0)
-	//	die("Non-GCC header of 'system'");
+	if (read(id,buf,GCC_HEADER) != GCC_HEADER)
+		die("Unable to read header of 'system'");
+	if (((long *) buf)[5] != 0)
+		die("Non-GCC header of 'system'");
 	for (i=0 ; (c=read(id,buf,sizeof buf))>0 ; i+=c )
 		if (write(1,buf,c)!=c)
 			die("Write call failed");
